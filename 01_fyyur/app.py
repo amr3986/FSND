@@ -19,7 +19,6 @@ from forms import *
 app = Flask(__name__)
 moment = Moment(app)
 app.config.from_object('config')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3986@localhost/myvanue'
 db = SQLAlchemy(app)
 
 # TODO: connect to a local postgresql database
@@ -39,7 +38,6 @@ class Venue(db.Model):
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
-    #description = db.Column(db.String(500))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
