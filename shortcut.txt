@@ -1,1 +1,1 @@
-psql -U <name of DB> "postgres"
+psql -U postgres

@@ -5,14 +5,21 @@
 <h3>{{ area.city }}, {{ area.state }}</h3>
 	<ul class="items">
 		{% for venue in area.venues %}
+	
 		<li>
+			
 			<a href="/venues/{{ venue.id }}">
 				<i class="fas fa-music"></i>
 				<div class="item">
 					<h5>{{ venue.name }}</h5>
 				</div>
 			</a>
+			<div class="btn-delete">
+				<input type="button" style="background: url(static/img/trash-fill.svg ) ; border: none; width: 17px; height: 15px;" class = "delete-button" data-id="{{venue.id}}"/>
+			</div>
+		
 		</li>
+	
 		{% endfor %}
 	</ul>
 {% endfor %}
