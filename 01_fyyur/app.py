@@ -36,7 +36,7 @@ class Venue(db.Model):
     __tablename__ = "Venue"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String,nullable = False)
+    v_name = db.Column(db.String,nullable = False)
     city = db.Column(db.String(120),nullable = False)
     state = db.Column(db.String(120),nullable = False)
     address = db.Column(db.String(120),nullable = False)
@@ -114,13 +114,13 @@ def venues():
 
     data = []
 
+    # iterate over each venue and extract venue info.
     for venue in result:
-
         upcoming_shows = venue.show.filter(Show.start_time > current_time).all()
         if city_state == venue.city + venue.state:
             data[len(data) - 1]["venues"].append({
               "id": venue.id,
-              "name": venue.name,
+              "name": venue.v_name,
               "num_upcoming_shows": len(upcoming_shows)
             })
 
@@ -131,7 +131,7 @@ def venues():
               "state": venue.state,
               "venues": [{
                 "id": venue.id,
-                "name": venue.name,
+                "name": venue.v_name,
                 "num_upcoming_shows": len(upcoming_shows)
               }]
             })
@@ -147,14 +147,13 @@ def search_venues():
 
   search_term=request.form.get('search_term').lower()
 
-  record = Venue.query.add_columns(Venue.id , Venue.name).all()
+  record = Venue.query.add_columns(Venue.id , Venue.v_name).all()
 
   upcoming = Show.query.join(Venue, Venue.id == Show.venue_id ).count()
 
 
-  #initial valuses for respone in case there is a match
+  #default values in case no match found
   for i in record:
-
     if (search_term not in i.name.lower()):
       response={
       "count": 0,"data": [{
@@ -168,7 +167,7 @@ def search_venues():
     "count": count,
     "data": [{
       "id": i[0].id,
-      "name": i[0].name,
+      "name": i[0].v_name,
       "num_upcoming_shows": upcoming,
     }]
   }  
@@ -176,22 +175,24 @@ def search_venues():
   for i in record:
     if (search_term in i.name.lower() ) :
       count = count+1
-      response['data'].append({"id":i.id,"name":i.name,"num_upcoming_shows":upcoming})
+      response['data'].append({"id":i.id,"name":i.v_name,"num_upcoming_shows":upcoming})
       response['count']=count
 
-  #deleting the first record so we avoid having duplacte search results
+  # avoid having duplacte search results by deleting the first record
   if(count >= len(response)):
     response['data'].pop(0)
     response['count'] = count - 1  
 
   if (response['count'] == 0):
     flash('Sorry this Venue does not exist!')
+
   return render_template('pages/search_venues.html', results=response, search_term=request.form.get('search_term', ''))
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
+
     data = dict()
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -201,9 +202,10 @@ def show_venue(venue_id):
 
     artist_result = Artist.query.join(Show).filter(Show.artist_id == Artist.id ).filter(Show.venue_id == venue_id).all()
 
+    # retrive values from DB
     data={
     "id": result.id,
-    "name": result.name,
+    "name": result.v_name,
     "city": result.city,
     "address": result.address,
     "state": result.state,
@@ -237,7 +239,7 @@ def show_venue(venue_id):
 
       else:
         data['upcoming_shows'].append({"artist_id": record.id,
-        "artist_name": record.name,
+        "artist_name": record.v_name,
         "artist_image_link": record.image_link,
         "start_time": str(time.start_time)})
         data['upcoming_shows_count']= upcoming_count =upcoming_count+1
@@ -261,11 +263,11 @@ def create_venue_submission():
   form = VenueForm(request.form, csrf_enabled=False)
   error = True
   
+  # validate the form, and extract values from the form 
   if form.validate():
-    
     error = False
     try:
-      name = request.form['name']
+      v_name = request.form['name']
       city = request.form['city']
       state = request.form['state']
       address = request.form['address']
@@ -276,7 +278,8 @@ def create_venue_submission():
       seek_talent = request.form['seeking_talent']
       website = request.form['website_link']
       seek_description = request.form['seeking_description']
-      newRecord = Venue(name = name , city = city , state = state , address = address ,
+      # insert info to DB
+      newRecord = Venue(v_name = v_name , city = city , state = state , address = address ,
       phone = phone ,image_link=image_link, facebook_link = facebook_link, genres = genres, seek_description = seek_description,
       seek_talent =seek_talent, website = website) 
       db.session.add(newRecord)
@@ -317,6 +320,7 @@ def delete_venue(venue_id):
       db.session.close() 
   # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
   # clicking that button delete it from the db then redirect the user to the homepage
+  # CHALLENGE complate :)
     return render_template('pages/home.html')
 
 #  Artists
@@ -328,6 +332,7 @@ def artists():
 
   result = Artist.query.all()
 
+  # each artist informations are inserted to data list
   for artist in result:
     data.append(artist)
    
@@ -385,14 +390,16 @@ def search_artists():
   return render_template('pages/search_artists.html', results=response, search_term=request.form.get('search_term', ''))
 
 @app.route('/artists/<int:artist_id>')
-def show_artist(artist_id):
+def show_artist(artist_id): 
   # shows the artist page with the given artist_id
   # TODO: replace with real artist data from the artist table, using artist_id
+
   current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
   result = Artist.query.get(artist_id)
   venue_result = Venue.query.join(Show).filter(Show.artist_id == artist_id).all()
   show_result = Show.query.join(Venue).filter(Show.artist_id == artist_id).all()
 
+  # retrive values from DB
   data={
     "id": result.id,
     "name": result.name,
@@ -420,7 +427,7 @@ def show_artist(artist_id):
     time = show_result[count]
     if (current_time > str(time.start_time)):
       data['past_shows'].append({"venue_id": venue.id,
-      "venue_name": venue.name,
+      "venue_name": venue.v_name,
       "venue_image_link": venue.image_link,
       "start_time": str(time.start_time)})
       data['past_shows_count']= past_count = past_count+1
@@ -428,7 +435,7 @@ def show_artist(artist_id):
 
     else:   
        data['upcoming_shows'].append({"venue_id": venue.id,
-      "venue_name": venue.name,
+      "venue_name": venue.v_name,
       "venue_image_link": venue.image_link,
       "start_time": str(time.start_time)})
        data['upcoming_shows_count']  = upcoming_count= upcoming_count+1
@@ -444,6 +451,7 @@ def edit_artist(artist_id):
 
   form = ArtistForm()
 
+  
   result = Artist.query.get(artist_id)
 
   artist = Artist(name = result.name,id = result.id,city = result.city,
@@ -453,12 +461,15 @@ def edit_artist(artist_id):
   return render_template('forms/edit_artist.html', form=form, artist=artist)
 
 @app.route('/artists/<int:artist_id>/edit', methods=['POST'])
-def edit_artist_submission(artist_id):
+def edit_artist_submission(artist_id):# not working
   # TODO: take values from the form submitted, and update existing
   # artist record with ID <artist_id> using the new attributes
+
+  # get the target record to update
   result = Artist.query.get(artist_id)
   error = False
 
+  # update each column from the new inserted values 
   try:
     result.name = request.form['name']
     result.city = request.form['city']
@@ -466,12 +477,12 @@ def edit_artist_submission(artist_id):
     result.phone = request.form['phone']
     result.genres = request.form.getlist('genres')
     result.facebook_link = request.form['facebook_link']
-    result.website = request.form['website']
+    result.website = request.form['website_link']
     result.seek_description = request.form['seeking_description']
     result.seek_venue = request.form.get('seeking_venue')
     result.image_link = request.form['image_link']
 
-    #checking the seeking_talent value where 'y' is true and 'n' is false
+    #checking the seeking_talent value where 't' is true and 'f' is false
     if (result.seek_venue == 't'):
       result.seek_venue = 't'
     else:
@@ -492,12 +503,14 @@ def edit_artist_submission(artist_id):
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
 def edit_venue(venue_id):
-  form = VenueForm()
-  # TODO: populate form with values from venue with ID <venue_id>
 
+  # TODO: populate form with values from venue with ID <venue_id>
+  form = VenueForm()
+
+  #
   result = Venue.query.get(venue_id)
 
-  venue = Venue(name = result.name,id = result.id,city = result.city,
+  venue = Venue(v_name = result.v_name,id = result.id,city = result.city,
   state = result.state,address = result.address , phone = result.phone,image_link = result.image_link,
   facebook_link =result.facebook_link)
 
@@ -508,18 +521,20 @@ def edit_venue_submission(venue_id):
   # TODO: take values from the form submitted, and update existing
   # venue record with ID <venue_id> using the new attributes
 
+  # get the target record to update
   result = Venue.query.get(venue_id)
   error = False
+
+  # update each column from the new inserted values 
   try:
-   
-    result.name = request.form['name']
+    result.v_name = request.form['name']
     result.city = request.form['city']
     result.state = request.form['state']
     result.address = request.form['address']
     result.phone = request.form['phone']
     result.genres = request.form.getlist('genres')
     result.facebook_link = request.form['facebook_link']
-    result.website = request.form['website']
+    result.website = request.form['website_link']
     result.seek_description = request.form['seeking_description']
     result.seek_talent = request.form.get('seeking_talent')
     result.image_link = request.form['image_link']
@@ -556,12 +571,13 @@ def create_artist_submission():
   # called upon submitting the new artist listing form
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
+
   form = ArtistForm(request.form, csrf_enabled=False)
 
   #checking if the form is valid 
   if form.validate():
-
     error = False
+    # extract information from the form
     try:
       name = request.form['name']
       city = request.form['city']
@@ -609,14 +625,16 @@ def shows():
   # displays list of shows at /shows
   # TODO: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
+
   result = Show.query.join(Venue ,Venue.id == Show.venue_id).join(Artist
-  ,Artist.id == Show.artist_id ).add_columns(Venue.id ,Venue.name,
+  ,Artist.id == Show.artist_id ).add_columns(Venue.id ,Venue.v_name,
   Show.start_time,Show.artist_id,Show.venue_id,Artist.name,Artist.image_link).all()
 
   data = []
-  for record in result:
+  # iterate over each show and extract info
+  for record in result: 
     data.extend([{ "venue_id": record.venue_id,
-    "venue_name": record.Venue_name,
+    "venue_name": record.v_name,
     "artist_id": record.artist_id,
     "artist_name": record.name,
     "artist_image_link": record.image_link,
@@ -636,7 +654,9 @@ def create_shows():
 def create_show_submission():
   # called to create new shows in the db, upon submitting new show listing form
   # TODO: insert form data as a new Show record in the db, instead
+
   error = False
+  # extract info from the form
   try:
     artist_id = request.form['artist_id']
     venue_id = request.form['venue_id']
