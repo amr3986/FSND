@@ -3,34 +3,25 @@
 #----------------------------------------------------------------------------#
 import sys
 from flask_wtf.csrf import CsrfProtect
-from sqlalchemy.orm import sessionmaker
-import json
 import dateutil.parser
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
 from flask_moment import Moment
-from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
-from flask_wtf import Form
-from flask_migrate import Migrate
 from datetime import datetime
 from fyyur.forms import *
-from fyyur.models import app, db, Venue, Artist, Show
+from fyyur.models import setup_db, Venue, Artist, Show
+
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
-
-app.config.from_object('config')
+app = Flask(__name__)
+app.config.from_object('fyyur.config')
 moment = Moment(app)
 
-
-db.init_app(app)
-
-
-#----------------------------------------------------------------------------#
-# Models.
-#----------------------------------------------------------------------------#
+db = setup_db(app)
 
 
 #----------------------------------------------------------------------------#
@@ -257,7 +248,6 @@ def create_venue_submission():
     flash( form.errors )
     return redirect(url_for('create_venue_form')) 
 
-
   # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
   # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
   return render_template('pages/home.html')
@@ -424,37 +414,42 @@ def edit_artist_submission(artist_id):# not working
 
   # get the target record to update
   result = Artist.query.get(artist_id)
-  error = False
-
+  
+  form = ArtistForm(request.form, csrf_enabled=False)
   # update each column from the new inserted values 
-  try:
-    result.name = request.form.get('name')
-    result.city = request.form.get('city')
-    result.state = request.form.get('state')
-    result.phone = request.form.get('phone')
-    result.genres = request.form.getlist('genres')
-    result.facebook_link = request.form.get('facebook_link')
-    result.website = request.form.get('website_link')
-    result.seek_description = request.form.get('seeking_description')
-    result.seek_venue = request.form.get('seeking_venue')
-    result.image_link = request.form.get('image_link')
+  if form.validate():
+    error = False
+    try:
+      result.name = request.form.get('name')
+      result.city = request.form.get('city')
+      result.state = request.form.get('state')
+      result.phone = request.form.get('phone')
+      result.genres = request.form.getlist('genres')
+      result.facebook_link = request.form.get('facebook_link')
+      result.website = request.form.get('website_link')
+      result.seek_description = request.form.get('seeking_description')
+      result.seek_venue = request.form.get('seeking_venue')
+      result.image_link = request.form.get('image_link')
 
-    #checking the seeking_talent value where 't' is true and 'f' is false
-    if (result.seek_venue == 't'):
-      result.seek_venue = 't'
-    else:
-      result.seek_venue = 'f'  
+      #checking the seeking_talent value where 't' is true and 'f' is false
+      if (result.seek_venue == 't'):
+        result.seek_venue = 't'
+      else:
+        result.seek_venue = 'f'  
 
-    db.session.commit() 
-  except:
-     error = True
-     db.session.rollback()
-  finally:
-    if error:
-      flash('Opss!,An error occurred. Artist ' + request.form.get('name') + ' could not be updated.')
-    else:    
-      flash('Artist ' + request.form.get('name') + ' was successfully updted!')
-    db.session.close()             
+      db.session.commit() 
+    except:
+      error = True
+      db.session.rollback()
+    finally:
+      if error:
+        flash('Opss!,An error occurred. Artist ' + request.form.get('name') + ' could not be updated.')
+      else:    
+        flash('Artist ' + request.form.get('name') + ' was successfully updted!')
+      db.session.close()
+  else:
+    flash( form.errors )
+    return redirect(url_for('edit_artist_submission'))
 
   return redirect(url_for('show_artist', artist_id=artist_id))
 
@@ -477,41 +472,45 @@ def edit_venue(venue_id):
 def edit_venue_submission(venue_id):
   # TODO: take values from the form submitted, and update existing
   # venue record with ID <venue_id> using the new attributes
-
+  form = VenueForm(request.form, csrf_enabled=False)
   # get the target record to update
   result = Venue.query.get(venue_id)
-  error = False
 
-  # update each column from the new inserted values 
-  try:
-    result.v_name = request.form.get('name')
-    result.city = request.form.get('city')
-    result.state = request.form.get('state')
-    result.address = request.form.get('address')
-    result.phone = request.form.get('phone')
-    result.genres = request.form.getlist('genres')
-    result.facebook_link = request.form.get('facebook_link')
-    result.website = request.form.get('website_link')
-    result.seek_description = request.form.get('seeking_description')
-    result.seek_talent = request.form.get('seeking_talent')
-    result.image_link = request.form.get('image_link')
+  if form.validate():
+    error = False
+    # update each column from the new inserted values 
+    try:
+      result.v_name = request.form.get('name')
+      result.city = request.form.get('city')
+      result.state = request.form.get('state')
+      result.address = request.form.get('address')
+      result.phone = request.form.get('phone')
+      result.genres = request.form.getlist('genres')
+      result.facebook_link = request.form.get('facebook_link')
+      result.website = request.form.get('website_link')
+      result.seek_description = request.form.get('seeking_description')
+      result.seek_talent = request.form.get('seeking_talent')
+      result.image_link = request.form.get('image_link')
 
-    #checking the seeking_talent value where 'y' is true and 'n' is false
-    if (result.seek_talent == 't'):
-      result.seek_talent = 't'
-    else:
-      result.seek_talent = 'f'  
-      
-    db.session.commit()
-  except:
-    error = True
-    db.session.rollback()
-  finally:
-    if error:
-      flash('An error occurred. Venue ' + request.form.get('name') + ' could not be updated.')
-    else:
-      flash('Venue ' + request.form.get('name') + ' was successfully updted!')
-    db.session.close() 
+      #checking the seeking_talent value where 'y' is true and 'n' is false
+      if (result.seek_talent == 't'):
+        result.seek_talent = 't'
+      else:
+        result.seek_talent = 'f'  
+        
+      db.session.commit()
+    except:
+      error = True
+      db.session.rollback()
+    finally:
+      if error:
+        flash('An error occurred. Venue ' + request.form.get('name') + ' could not be updated.')
+      else:
+        flash('Venue ' + request.form.get('name') + ' was successfully updted!')
+      db.session.close() 
+  else:
+    flash( form.errors)
+    return redirect(url_for('edit_venue_submission'))
 
   return redirect(url_for('show_venue', venue_id=venue_id))
 
@@ -564,16 +563,11 @@ def create_artist_submission():
         flash('Artist ' + request.form.get('name') + ' was successfully listed!')
         
       db.session.close()
-
   else:
     flash( form.errors )
     return redirect(url_for('create_artist_form'))
 
-
-  
-  # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
   return render_template('pages/home.html')
-
 
 #  Shows
 #  ----------------------------------------------------------------

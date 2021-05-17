@@ -1,14 +1,14 @@
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-
-
-app = Flask(__name__)
 db = SQLAlchemy()
 
-# TODO: connect to a local postgresql database
-migrate = Migrate(app, db)
+def setup_db(app):
+    app.config.from_object('config')
+    db.app = app
+    db.init_app(app)
+    Migrate(app, db)
+    return db
 
 
 

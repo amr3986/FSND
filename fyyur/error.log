@@ -1,1 +1,362 @@
 
+2021-05-17 09:47:16,156 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:664]
+2021-05-17 09:47:31,134 ERROR: Exception on /venues/create [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 212, in create_venue_form
+    form = VenueForm()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 157, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 87, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 274, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 131, in process
+    field.process(formdata)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\csrf\core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 141, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 128, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.
+2021-05-17 09:47:35,651 ERROR: Exception on /artists [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: Artist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 289, in artists
+    result = Artist.query.all()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 3346, in all
+    return list(self)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 3508, in __iter__
+    return self._execute_and_instances(context)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 3533, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1011, in execute
+    return meth(self, multiparams, params)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\sql\elements.py", line 298, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1130, in _execute_clauseelement
+    distilled_params,
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1317, in _execute_context
+    e, statement, parameters, cursor, context
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1511, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\util\compat.py", line 182, in raise_
+    raise exception
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: Artist
+[SQL: SELECT "Artist".id AS "Artist_id", "Artist".name AS "Artist_name", "Artist".city AS "Artist_city", "Artist".state AS "Artist_state", "Artist".phone AS "Artist_phone", "Artist".genres AS "Artist_genres", "Artist".image_link AS "Artist_image_link", "Artist".facebook_link AS "Artist_facebook_link", "Artist".seek_description AS "Artist_seek_description", "Artist".seek_venue AS "Artist_seek_venue", "Artist".website AS "Artist_website" 
+FROM "Artist"]
+(Background on this error at: http://sqlalche.me/e/13/e3q8)
+2021-05-17 09:47:37,445 ERROR: Exception on /artists/create [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 522, in create_artist_form
+    form = ArtistForm()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 157, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 87, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 274, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 131, in process
+    field.process(formdata)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\csrf\core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 141, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 128, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.
+2021-05-17 09:48:42,569 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:665]
+2021-05-17 09:48:47,051 ERROR: Exception on /venues/create [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 213, in create_venue_form
+    form = VenueForm()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 157, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 87, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 274, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 131, in process
+    field.process(formdata)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\csrf\core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 141, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 128, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.
+2021-05-17 09:50:26,734 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:663]
+2021-05-17 09:58:30,739 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:671]
+2021-05-17 09:58:39,129 ERROR: Exception on /venues/create [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 219, in create_venue_form
+    form = VenueForm()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 157, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 87, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 274, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 131, in process
+    field.process(formdata)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\csrf\core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 141, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 128, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.
+2021-05-17 09:58:41,535 ERROR: Exception on /artists [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\util\_collections.py", line 1020, in __call__
+    return self.registry[key]
+KeyError: 17892
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 296, in artists
+    result = Artist.query.all()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_sqlalchemy\__init__.py", line 514, in __get__
+    return type.query_class(mapper, session=self.sa.session())
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\orm\scoping.py", line 78, in __call__
+    return self.registry()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\util\_collections.py", line 1022, in __call__
+    return self.registry.setdefault(key, self.createfunc())
+  File "C:\Users\amori\Anaconda3\lib\site-packages\sqlalchemy\orm\session.py", line 3286, in __call__
+    return self.class_(**local_kw)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_sqlalchemy\__init__.py", line 137, in __init__
+    track_modifications = app.config['SQLALCHEMY_TRACK_MODIFICATIONS']
+KeyError: 'SQLALCHEMY_TRACK_MODIFICATIONS'
+2021-05-17 09:59:23,998 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:671]
+2021-05-17 09:59:33,905 ERROR: Exception on /venues/create [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 219, in create_venue_form
+    form = VenueForm()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 157, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 87, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 274, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 131, in process
+    field.process(formdata)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\csrf\core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 141, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 128, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.
+2021-05-17 10:04:39,659 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:666]
+2021-05-17 10:04:50,002 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:666]
+2021-05-17 10:09:12,745 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:669]
+2021-05-17 10:10:28,053 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:669]
+2021-05-17 10:11:08,443 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:669]
+2021-05-17 10:12:59,607 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:670]
+2021-05-17 10:13:06,805 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:670]
+2021-05-17 10:14:36,673 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:671]
+2021-05-17 10:20:59,991 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:659]
+2021-05-17 10:21:11,156 ERROR: Exception on /artists/create [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 517, in create_artist_form
+    form = ArtistForm()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 157, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 87, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 274, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 131, in process
+    field.process(formdata)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\csrf\core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 141, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 128, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.
+2021-05-17 10:21:14,864 ERROR: Exception on /artists/create [GET] [in C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\amori\Desktop\Nano\fyyur\app.py", line 517, in create_artist_form
+    form = ArtistForm()
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 157, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\form.py", line 87, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 274, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\form.py", line 131, in process
+    field.process(formdata)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\wtforms\csrf\core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 141, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "C:\Users\amori\Anaconda3\lib\site-packages\flask_wtf\csrf.py", line 128, in _get_config
+    raise RuntimeError(message)
+RuntimeError: A secret key is required to use CSRF.
+2021-05-17 10:25:20,470 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:658]
+2021-05-17 10:36:34,108 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:705]
+2021-05-17 10:36:58,198 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:705]
+2021-05-17 10:37:14,620 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:705]
+2021-05-17 10:38:01,650 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:705]
+2021-05-17 10:38:32,163 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 10:39:53,884 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 10:51:58,318 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 10:52:26,758 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 10:54:58,650 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 10:55:09,793 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 10:55:24,499 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 11:02:15,443 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 11:02:32,868 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 11:06:17,365 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 11:08:41,156 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
+2021-05-17 11:10:01,311 INFO: errors [in C:\Users\amori\Desktop\Nano\fyyur\app.py:706]
