@@ -1,0 +1,8 @@
+{
+   "python.pythonPath": "C:\\Users\\amori\\Desktop\\Nano\\trivia_api\\starter\\backend\\env\\Scripts\\python.exe", 
+   
+   "python.analysis.extraPaths": [
+      "./trivia_api"
+   ]
+}
+

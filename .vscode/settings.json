@@ -1,10 +1,10 @@
 {
-   "python.pythonPath": "C:\\Users\\amori\\Desktop\\Nano\\fyyur\\venv\\Scripts\\python.exe",
+   "python.pythonPath": "C:\\Users\\amori\\Anaconda3\\envs\\env\\python.exe",
    "python.autoComplete.extraPaths": [
       "./fyyur"
    ],
    "python.analysis.extraPaths": [
-      "./fyyur"
+      "./fyyur","./trivia_api"
    ]
       
 }
