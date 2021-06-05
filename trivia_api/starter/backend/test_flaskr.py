@@ -61,6 +61,38 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['deleted'])
 
 
+        def test_delete_question_422(self):
+            res = self.client().delete("/questions/200")
+            data = json.loads(res.data)
+
+            self.assertEqual(res.status_code, 422)
+            self.assertEqual(data["success"], False)
+            self.assertEqual(data["message"], "The request you made was not processable.")
+            def test_get_categories(self):
+                res = self.client().get('/categories')
+                data = json.loads(res.data)
+                self.assertEqual(res.status_code, 200)
+                self.assertEqual(data['success'], True)
+            
+
+        def test_get_paginated_questions(self):
+            res = self.client().get('/questions')
+            data = json.loads(res.data)
+            self.assertEqual(res.status_code, 200)
+            self.assertEqual(data['success'], True)
+            self.assertTrue(data['total_questions'])
+            self.assertTrue(data['categories'])
+
+        def test_get_paginated_questions_404(self):
+            res = self.client().get('/questions?page=1000')
+            data = json.loads(res.data)
+            self.assertEqual(res.status_code, 404)
+            self.assertEqual(data['success'], False)
+            self.assertEqual(data['message'], 'The resource you requested was not found.')
+
+
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
