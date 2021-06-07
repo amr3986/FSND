@@ -205,16 +205,18 @@ def create_app(test_config=None):
   @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
   def questions_by_category(category_id):
         try:
-            categories = Category.query.all()
-            formatted_categories = [c.format() for c in categories]
-
-            questions = Question.query.filter_by(
-                category=str(category_id)).all()
-
+            questions = Question.query.filter_by(category=category_id).all()
             current_questions = paginate_question(request, questions)
 
-            current_categories = list(
-                set([question['category'] for question in current_questions]))
+
+            categories = Category.query.all()
+            for cat in categories:
+                formatted_categories = cat.format()
+             
+            
+            for question in current_questions:
+                current_categories = list(set([question['category']]))
+                
             current_category = current_categories
 
             if category_id > 6:
