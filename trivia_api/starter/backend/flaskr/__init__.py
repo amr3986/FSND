@@ -244,39 +244,60 @@ def create_app(test_config=None):
   @app.route('/quizzes', methods=['POST'])
   @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
   def quizzes():
-        body = request.get_json()
-        category = body.get('quiz_category', None).get('id')
-        previous_questions = body.get('previous_questions', None)
-        if category == 0:  # i.e. All
-            question_pool = Question.query.all()
-        else:
-            question_pool = Question.query.filter(
-                Question.category == category).all()
-        if len(question_pool) == 0:
-            return jsonify({
+      if request.method == 'POST':
+          responce = request.get_json()
+          catagory = responce.get('quiz_category',None).get('id')
+
+          if catagory != 0:
+                questions = Question.query.filter(
+                Question.catagory == catagory).all()
+          else:
+                questions = Question.query.all()
+           
+          if len(questions) > 0:
+              prev_questions = responce.get('previous_questions', None)
+              for question in questions:
+                  if question.id not in prev_questions:
+                        subquastions = question.format()
+                  
+              Noumber_subquastions = len(subquastions)
+              Noumber_prev_questions = len(prev_questions)
+
+          else:
+              return jsonify({
                 'question': None
             })
-        subset = [question.format()
-                  for question in question_pool
-                  if question.id not in previous_questions]
 
-        if len(subset) == 0:
-            question = None
-        else:
-            question = random.choice(subset)
-        try:
-            while len(subset) > len(previous_questions):
-                if question.get(id) not in previous_questions:
-                    return jsonify({
+          if Noumber_subquastions > 0:
+               question = random.choice(subquastions)
+          else:
+              question = None
+
+          try:
+              while Noumber_subquastions > Noumber_prev_questions:
+                  if question.get(id) not in prev_questions:
+                       return jsonify({
                         'success': True,
                         'question': question
                     }), 200
-            return jsonify({
+              return jsonify({
                 'success': True,
                 'question': question
             }), 200
-        except BaseException:
+          except BaseException:
             abort(404)
+      else:
+          abort(404)
+
+
+
+
+
+
+
+
+
+
   '''
   @TODO: 
   Create error handlers for all expected errors 
