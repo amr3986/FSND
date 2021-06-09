@@ -171,20 +171,18 @@ def create_app(test_config=None):
   @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
   def search_questions():
       body = request.get_json()
-      term = body.get('searchTerm', None)
+      term = body.get('searchTerm')
       if term is None:
           abort(404)
 
       try:
-          select_terms = Question.query.order_by(
-              Question.id).filter(
-              Question.question.ilike(
-                  '%{}%'.format(term))).all()
+          select_terms = Question.query.filter(Question.question.ilike('%{}%'.format(term))).all()
           result = paginate_question(request, select_terms)
 
           if(len(result) == 0):
+              
               abort(404)
-
+          print(result)
           return jsonify({
               'success': True,
               'questions': result,
