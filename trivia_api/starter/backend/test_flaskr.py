@@ -69,13 +69,13 @@ class TriviaTestCase(unittest.TestCase):
 
     
     def test_search_questions(self):
-        res = self.client().post("/questions/search", json={"searchTerm": "title"})
+        res = self.client().post("/search_questions", json={"searchTerm": "title"})
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
 
     def test_search_questions_404(self):
-        res = self.client().post("/questions/search", json={"search": "1"})
+        res = self.client().post("/search_questions", json={"search": "1"})
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data["success"], False)
@@ -120,14 +120,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 405)
         self.assertEqual(data["success"], False)
         self.assertEqual(data["message"], "This method is not allowed, sorry.")
-
-    def test_get_paginated_questions_404(self):
-        res = self.client().get('/questions?page=1000')
-        data = json.loads(res.data)
-        self.assertEqual(res.status_code, 404)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'The resource you requested was not found.')
-
 
 
 
