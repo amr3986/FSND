@@ -42,12 +42,6 @@ class TriviaTestCase(unittest.TestCase):
     TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
-    def test_deleted_questions(self):
-        res = self.client().delete('/questions/9')
-        data = json.loads(res.data)
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertEqual(data['deleted'], 9)
 
 
 
@@ -58,7 +52,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
 
-    
     def test_search_questions(self):
         res = self.client().post("/search_questions", json={"searchTerm": "title"})
         data = json.loads(res.data)
@@ -73,14 +66,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
         self.assertTrue(data["current_category"], 2)
-
-    def test_deleted_questions(self):
-        res = self.client().delete('/questions/1')
-        data = json.loads(res.data)
-
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertEqual(data['deleted_questions_id'], 10)
 
 
     def test_get_categories(self):
@@ -108,7 +93,5 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['current_category'])
 
 
-
-# Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
