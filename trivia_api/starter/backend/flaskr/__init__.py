@@ -250,7 +250,7 @@ def create_app(test_config=None):
 
           if catagory != 0:
                 questions = Question.query.filter(
-                Question.catagory == catagory).all()
+                Question.category == catagory).all()
           else:
                 questions = Question.query.all()
            
