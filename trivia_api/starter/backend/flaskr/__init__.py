@@ -113,7 +113,7 @@ def create_app(test_config=None):
       selected_question = Question.query.get(question_id)
 
       if selected_question is None:
-          abort(404)
+          return Error422(422)
       try:
           selected_question.delete()
 
@@ -246,11 +246,11 @@ def create_app(test_config=None):
   def quizzes():
       if request.method == 'POST':
           responce = request.get_json()
-          catagory = responce.get('quiz_category',None).get('id')
-
+          catagory = int(responce.get('quiz_category').get('id')) + 1
+          
           if catagory != 0:
                 questions = Question.query.filter(
-                Question.category == catagory).all()
+                category = catagory).all()
           else:
                 questions = Question.query.all()
            
@@ -341,7 +341,7 @@ def create_app(test_config=None):
     return jsonify({
         'success': False,
         'error': 422,
-        'message': 'Unprocessable Entity, Try again.'
+        'message': 'Unprocessable Entity.'
     }), 422
 
   @app.errorhandler(500)
