@@ -167,7 +167,7 @@ def create_app(test_config=None):
   only question that include that string within their question. 
   Try using the word "title" to start. 
   '''
-  @app.route('/search_questions', methods=['POST'])
+  @app.route('/search/questions', methods=['POST'])
   @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
   def search_questions():
       body = request.get_json()
