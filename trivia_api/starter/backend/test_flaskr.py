@@ -21,8 +21,8 @@ class TriviaTestCase(unittest.TestCase):
         setup_db(self.app, self.database_path)
         
         self.new_question = {
-            'question': 'What day is it?',
-            'answer': 'Who cares?',
+            'question': 'What is your name?',
+            'answer': 'Amr',
             'category': '1',
             'difficulty': 1
         }
